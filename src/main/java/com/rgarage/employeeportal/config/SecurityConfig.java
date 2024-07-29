@@ -21,6 +21,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((authz)->authz
                         .requestMatchers("/signin").permitAll()
+                        .requestMatchers("/employees").permitAll()
                         .anyRequest().authenticated());
 
 
@@ -47,7 +48,7 @@ public class SecurityConfig {
                 PasswordEncoderFactories.createDelegatingPasswordEncoder();
 
         UserDetails user =   User.builder()
-                .username("user").password(encoder.encode("password"))
+                .username("user").password(encoder.encode("sa"))
                 .roles("USER").build();
 
         return new InMemoryUserDetailsManager(user);
