@@ -16,5 +16,10 @@ public class LoginController {
             return "homepage";
         }
 
+    @GetMapping("/")
+    public String redirectToHome() {
+        return "redirect:/home";
+    }
+
 
 }
