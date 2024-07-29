@@ -1,0 +1,23 @@
+name: 'employee-management'
+
+services:
+  employee-management-service:
+    image: rickmen/employeeportal
+    container_name: employee-management-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - DB_URL=jdbc:mysql://employee-management-db:3306/employeemanagementdb
+      - DB_USERNAME=mysql
+      - DB_PASSWORD=mysql
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
+    depends_on:
+      employee-management-db:
+        condition: service_healthy
+    networks:
+          - my-network
+    deploy:
+      resources:
+        limits:
+          memory: 700m

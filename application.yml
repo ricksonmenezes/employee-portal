@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: dev
+
+  jpa:
+    show-sql: true
+    generate-ddl: false
+    hibernate:
+
+      jdbc.batch_size:  100
+      jdbc.time_zone: UTC
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: update
+
+  datasource:
+    url: jdbc:mysql://localhost:3307/employeemanagementdb
+    username: user
+    password: password
+    driverClassName: com.mysql.cj.jdbc.Driver
