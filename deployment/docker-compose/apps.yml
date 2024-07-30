@@ -5,10 +5,10 @@ services:
     image: rickmen/employeeportal
     container_name: employee-management-service
     environment:
-      - SPRING_PROFILES_ACTIVE=docker
-      - DB_URL=jdbc:mysql://employee-management-db:3306/employeemanagementdb
-      - DB_USERNAME=mysql
-      - DB_PASSWORD=mysql
+      SPRING_PROFILE_ACTIVE: ${SPRING_PROFILE_ACTIVE}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     ports:
       - "8081:8081"
     restart: unless-stopped
