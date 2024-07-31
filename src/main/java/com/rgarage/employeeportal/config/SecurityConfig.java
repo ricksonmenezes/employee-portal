@@ -1,3 +1,4 @@
+/*
 package com.rgarage.employeeportal.config;
 
 import org.springframework.context.annotation.Bean;
@@ -11,19 +12,24 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 
-@Configuration
+
 public class SecurityConfig {
 
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
-        http
+        */
+/*http
                 .authorizeHttpRequests((authz)->authz
                         .requestMatchers("/signin").permitAll()
                         .requestMatchers("/employees").permitAll()
+                        .requestMatchers("/playground").permitAll()
+                        .requestMatchers("/graphql").permitAll()
+                        .requestMatchers("/api/vendor/playground").permitAll()
                         .anyRequest().authenticated());
-
+        http.csrf(csrf -> csrf
+                .ignoringRequestMatchers("/graphql"));
 
         http.formLogin(ft->ft
                 //.loginPage("/signin").permitAll() --> this was making a circular view
@@ -38,7 +44,9 @@ public class SecurityConfig {
                             .permitAll();
                 });
 
-        return http.build();
+        return http.build();*//*
+
+        return null;
     }
 
     @Bean
@@ -59,3 +67,4 @@ public class SecurityConfig {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
+*/
