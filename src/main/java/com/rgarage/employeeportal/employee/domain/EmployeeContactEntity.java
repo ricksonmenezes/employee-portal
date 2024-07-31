@@ -33,6 +33,11 @@ public class EmployeeContactEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    public EmployeeContactEntity(String contact, boolean primary) {
+        this.contactNo = contact;
+        this.isPrimary = primary;
+    }
+
     @PrePersist
     protected void onCreate() {
         LocalDateTime now = LocalDateTime.now();

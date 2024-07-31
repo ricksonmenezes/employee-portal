@@ -11,6 +11,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -74,7 +75,7 @@ public class EmployeeEntity {
 
     public static EmployeeEntity from(CreateEmployeeRequest createEmployee) {
 
-        return EmployeeEntity.builder()
+        EmployeeEntity employee =  EmployeeEntity.builder()
                 .firstName(createEmployee.employee().firstName())
                 .lastName(createEmployee.employee().lastName())
                 .gender(createEmployee.employee().gender())
@@ -83,26 +84,22 @@ public class EmployeeEntity {
                 .hiredDate((Instant.ofEpochMilli(createEmployee.employee().hiredDate())).atZone(ZoneOffset.UTC).toLocalDateTime())
                 .position(createEmployee.employee().position())
                 .build();
+
+        employee.setContacts(convertToEmployeeContactEntities(createEmployee.contacts(), employee));
+        return  employee;
     }
 
-    /*
-    * mutation {
-  createEmployee(input: {
-    employee: {
-      firstName: "Rickson",
-      lastName: "Menezes",
-      middleName: "Sushil",
-      gender: MALE,
-      position: "Lead",
-      birthDate: 537552000000,
-      hiredDate: 1686672000000,
-      maritalStatus: MARRIED
+    private static Set<EmployeeContactEntity> convertToEmployeeContactEntities(final Set<Contact> contacts, final EmployeeEntity employee) {
+
+        return (contacts).stream()
+                .map(contact -> {
+                    EmployeeContactEntity employeeContact = new EmployeeContactEntity(contact.contact(), contact.isPrimary());
+                    employeeContact.setEmployee(employee);
+                    return employeeContact;
+
+                })
+                .collect(Collectors.toSet());
     }
-  }) {
-    code
-  }
-}
-}*/
 
 }
 
