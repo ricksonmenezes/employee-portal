@@ -1,6 +1,6 @@
-package com.rgarage.employeeportal.employee.entity;
+package com.rgarage.employeeportal.employee.domain;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,21 +10,22 @@ import java.time.LocalDateTime;
 @Table(name = "employee_contact")
 @Getter
 @Setter
-public class EmployeeContact {
+public class EmployeeContactEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Column(name = "code", nullable = false)
-    private int code;
-
     @Column(name = "contact_no", nullable = false)
     private String contactNo;
 
     @Column(name = "is_primary", nullable = false)
     private boolean isPrimary;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "emp_code")
+    private EmployeeEntity employee;
 
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
