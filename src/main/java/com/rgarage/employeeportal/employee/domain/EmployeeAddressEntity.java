@@ -1,6 +1,7 @@
 package com.rgarage.employeeportal.employee.domain;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "employee_address")
 @Getter
 @Setter
+@NoArgsConstructor
 public class EmployeeAddressEntity {
 
     @Id
@@ -36,6 +38,11 @@ public class EmployeeAddressEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    public EmployeeAddressEntity(String address1, String address2, boolean primary) {
+        this.address1 = address1;
+        this.address2 = address2;
+        this.isPrimary = primary;
+    }
     @PrePersist
     protected void onCreate() {
         LocalDateTime now = LocalDateTime.now();

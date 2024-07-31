@@ -7,5 +7,5 @@ import java.util.Set;
 public record CreateEmployeeRequest(
         @Valid @NotEmpty(message = "Items cannot be empty") Set<Contact> contacts,
 
-        /* @Valid @NotEmpty(message = "Items cannot be empty") Set<Address> addresses,*/
+         @Valid @NotEmpty(message = "Items cannot be empty") Set<Address> addresses,
         @Valid Employee employee) {}

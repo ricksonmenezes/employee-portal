@@ -1,9 +1,7 @@
 package com.rgarage.employeeportal.employee.domain;
 
-import com.rgarage.employeeportal.employee.domain.model.Contact;
-import com.rgarage.employeeportal.employee.domain.model.CreateEmployeeRequest;
-import com.rgarage.employeeportal.employee.domain.model.Gender;
-import com.rgarage.employeeportal.employee.domain.model.MaritalStatus;
+import com.rgarage.employeeportal.employee.domain.model.*;
+
 import javax.persistence.*;
 import lombok.*;
 
@@ -55,6 +53,9 @@ public class EmployeeEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
     private Set<EmployeeContactEntity> contacts;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+    private Set<EmployeeAddressEntity> addresses;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
@@ -86,6 +87,8 @@ public class EmployeeEntity {
                 .build();
 
         employee.setContacts(convertToEmployeeContactEntities(createEmployee.contacts(), employee));
+        employee.setAddresses(convertToEmployeeAddressEntities(createEmployee.addresses(), employee));
+
         return  employee;
     }
 
@@ -96,6 +99,18 @@ public class EmployeeEntity {
                     EmployeeContactEntity employeeContact = new EmployeeContactEntity(contact.contact(), contact.isPrimary());
                     employeeContact.setEmployee(employee);
                     return employeeContact;
+
+                })
+                .collect(Collectors.toSet());
+    }
+
+    private static Set<EmployeeAddressEntity> convertToEmployeeAddressEntities(final Set<Address> addresses, final EmployeeEntity employee) {
+
+        return (addresses).stream()
+                .map(address -> {
+                    EmployeeAddressEntity employeeAddress = new EmployeeAddressEntity(address.address1(), address.address2(),address.isPrimary());
+                    employeeAddress.setEmployee(employee);
+                    return employeeAddress;
 
                 })
                 .collect(Collectors.toSet());
