@@ -1,6 +1,14 @@
 server:
   port: 8081
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
 spring:
+
+  security:
+    enabled: false
 
   profiles:
     active: dev
@@ -12,13 +20,16 @@ spring:
 
       jdbc.batch_size:  100
       jdbc.time_zone: UTC
-      naming:
-        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      #naming:
+        #implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+        #physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: update
+    properties:
+      hibernate.jdbc.time_zone: UTC
 
   datasource:
-    url: jdbc:mysql://localhost:3307/employeemanagementdb
+    url: jdbc:mysql://localhost:3307/employeemanagementdb?serverTimezone=UTC
     username: user
     password: password
     driverClassName: com.mysql.cj.jdbc.Driver
+
