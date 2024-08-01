@@ -29,9 +29,6 @@
 	<properties>
 		<java.version>17</java.version>
 		<dockerImageName>rickmen/${project.artifactId}</dockerImageName>
-		<!--<graphql-java-kickstart.version>11.0.0</graphql-java-kickstart.version>
-		<graphql-spring-starter-version>5.0.2</graphql-spring-starter-version>
-		<graphql-spqr.version>0.12.4</graphql-spqr.version>-->
 		<graphql-java-kickstart.version>7.1.0</graphql-java-kickstart.version>
 		<graphql-spqr.version>0.10.1</graphql-spqr.version>
 	</properties>
@@ -152,6 +149,7 @@
 						<name>${dockerImageName}</name>
 						<builder>dashaun/builder:tiny</builder>
 					</image>
+
 
 				</configuration>
 				<executions>
