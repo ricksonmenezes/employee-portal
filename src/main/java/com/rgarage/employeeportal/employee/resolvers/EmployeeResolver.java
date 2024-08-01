@@ -21,6 +21,7 @@ public class EmployeeResolver {
     @GraphQLQuery
     @GraphQLNonNull
     public List<@GraphQLNonNull EmployeeEntity> employees() {
+
         return this.employeeService.find();
     }
 

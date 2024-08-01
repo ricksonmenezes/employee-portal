@@ -4,6 +4,8 @@ import com.rgarage.employeeportal.employee.domain.model.*;
 
 import javax.persistence.*;
 import lombok.*;
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Fetch;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -50,10 +52,12 @@ public class EmployeeEntity {
     @Column(name = "position", nullable = false)
     private String position;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+    @OneToMany( cascade = CascadeType.ALL, mappedBy = "employee")
+   @Fetch(org.hibernate.annotations.FetchMode.JOIN)
     private Set<EmployeeContactEntity> contacts;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+    @Fetch(org.hibernate.annotations.FetchMode.JOIN)
     private Set<EmployeeAddressEntity> addresses;
 
     @Column(name = "created_at", updatable = false)
@@ -78,6 +82,7 @@ public class EmployeeEntity {
 
         EmployeeEntity employee =  EmployeeEntity.builder()
                 .firstName(createEmployee.employee().firstName())
+                .middleName(createEmployee.employee().middleName())
                 .lastName(createEmployee.employee().lastName())
                 .gender(createEmployee.employee().gender())
                 .maritalStatus(createEmployee.employee().maritalStatus())
@@ -115,6 +120,8 @@ public class EmployeeEntity {
                 })
                 .collect(Collectors.toSet());
     }
+
+
 
 }
 

@@ -2,6 +2,7 @@ package com.rgarage.employeeportal.employee.domain;
 
 import javax.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Table(name = "employee_contact")
 @Getter
 @Setter
+@NoArgsConstructor
 public class EmployeeContactEntity {
 
     @Id
@@ -23,7 +25,7 @@ public class EmployeeContactEntity {
     @Column(name = "is_primary", nullable = false)
     private boolean isPrimary;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = javax.persistence.FetchType.LAZY, optional = false)
     @JoinColumn(name = "emp_code")
     private EmployeeEntity employee;
 

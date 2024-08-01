@@ -28,7 +28,7 @@ public class EmployeeAddressEntity {
     @Column(name = "is_primary", nullable = false)
     private boolean isPrimary;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = javax.persistence.FetchType.LAZY, optional = false)
     @JoinColumn(name = "emp_code")
     private EmployeeEntity employee;
 
