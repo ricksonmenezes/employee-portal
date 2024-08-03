@@ -22,8 +22,7 @@ CREATE TABLE employee_contact (
   is_primary BOOLEAN NOT NULL DEFAULT FALSE,
   created_at                timestamp,
   updated_at                timestamp,
-  FOREIGN KEY (code) REFERENCES employee(code),
-  UNIQUE (code, contact_no));
+  CONSTRAINT fk_emp_contact_code FOREIGN KEY (code) REFERENCES employee(code));
 
 CREATE TABLE employee_address (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
@@ -33,4 +32,4 @@ CREATE TABLE employee_address (
   is_primary BOOLEAN NOT NULL DEFAULT FALSE,
   created_at                timestamp,
   updated_at                timestamp,
-  FOREIGN KEY (code) REFERENCES employee(code));
+  CONSTRAINT fk_emp_address_code FOREIGN KEY (code) REFERENCES employee(code));
