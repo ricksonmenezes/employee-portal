@@ -4,6 +4,7 @@ import com.rgarage.employeeportal.employee.domain.EmployeeAddressEntity;
 import com.rgarage.employeeportal.employee.domain.EmployeeContactEntity;
 import com.rgarage.employeeportal.employee.domain.model.CreateEmployeeRequest;
 import com.rgarage.employeeportal.employee.domain.EmployeeEntity;
+import com.rgarage.employeeportal.employee.domain.model.UpdateEmployeeRequest;
 import com.rgarage.employeeportal.employee.repository.EmployeeRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -34,6 +35,10 @@ public class EmployeeService {
 
     public EmployeeEntity create(CreateEmployeeRequest createEmployee) {
         return this.employeeRepository.save(EmployeeEntity.from(createEmployee));
+    }
+
+    public EmployeeEntity update(UpdateEmployeeRequest updateEmployee) {
+        return this.employeeRepository.save(EmployeeEntity.from(updateEmployee));
     }
 
     public boolean delete(Integer code) {

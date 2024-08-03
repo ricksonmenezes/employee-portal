@@ -4,6 +4,7 @@ package com.rgarage.employeeportal.employee.domain.model;
 import javax.validation.constraints.NotBlank;
 
 public record Employee(
+
         @NotBlank(message = "Employee Name is required") String firstName,
 
         @NotBlank(message = "Employee Name is required") String lastName,

@@ -2,6 +2,7 @@ package com.rgarage.employeeportal.employee.resolvers;
 
 import com.rgarage.employeeportal.employee.domain.model.CreateEmployeeRequest;
 import com.rgarage.employeeportal.employee.domain.EmployeeEntity;
+import com.rgarage.employeeportal.employee.domain.model.UpdateEmployeeRequest;
 import com.rgarage.employeeportal.employee.service.EmployeeService;
 import io.leangen.graphql.annotations.GraphQLArgument;
 import io.leangen.graphql.annotations.GraphQLMutation;
@@ -38,9 +39,16 @@ public class EmployeeResolver {
     }
 
     @GraphQLMutation
+    public EmployeeEntity updateEmployee(
+            @GraphQLArgument(name = "input") UpdateEmployeeRequest updateEmployee) {
+        return this.employeeService.update(updateEmployee);
+    }
+
+    @GraphQLMutation
     public Integer deleteEmployee(
-            @GraphQLArgument(name = "id") Integer code) {
+            @GraphQLArgument(name = "code") Integer code) {
         return this.employeeService.delete(code) ? code : null;
     }
 
-}
+
+    }

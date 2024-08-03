@@ -40,6 +40,12 @@ public class EmployeeContactEntity {
         this.isPrimary = primary;
     }
 
+    public EmployeeContactEntity(Integer id, String contact, boolean primary) {
+        this.id = id;
+        this.contactNo = contact;
+        this.isPrimary = primary;
+    }
+
     @PrePersist
     protected void onCreate() {
         LocalDateTime now = LocalDateTime.now();

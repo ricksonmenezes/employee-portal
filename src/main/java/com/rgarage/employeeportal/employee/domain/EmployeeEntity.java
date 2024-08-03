@@ -97,6 +97,26 @@ public class EmployeeEntity {
         return  employee;
     }
 
+    public static EmployeeEntity from(UpdateEmployeeRequest updateEmployee) {
+
+        EmployeeEntity employee =  EmployeeEntity.builder()
+                .code(updateEmployee.employee().code())
+                .firstName(updateEmployee.employee().firstName())
+                .middleName(updateEmployee.employee().middleName())
+                .lastName(updateEmployee.employee().lastName())
+                .gender(updateEmployee.employee().gender())
+                .maritalStatus(updateEmployee.employee().maritalStatus())
+                .birthDate((Instant.ofEpochMilli(updateEmployee.employee().birthDate())).atZone(ZoneOffset.UTC).toLocalDateTime())
+                .hiredDate((Instant.ofEpochMilli(updateEmployee.employee().hiredDate())).atZone(ZoneOffset.UTC).toLocalDateTime())
+                .position(updateEmployee.employee().position())
+                .build();
+
+        employee.setContacts(convertToEmployeeContactEntitiesForUpdate(updateEmployee.contacts(), employee));
+        employee.setAddresses(convertToEmployeeAddressEntitiesForUpdate(updateEmployee.addresses(), employee));
+
+        return  employee;
+    }
+
     private static Set<EmployeeContactEntity> convertToEmployeeContactEntities(final Set<Contact> contacts, final EmployeeEntity employee) {
 
         return (contacts).stream()
@@ -109,11 +129,35 @@ public class EmployeeEntity {
                 .collect(Collectors.toSet());
     }
 
+    private static Set<EmployeeContactEntity> convertToEmployeeContactEntitiesForUpdate(final Set<UpdateContact> contacts, final EmployeeEntity employee) {
+
+        return (contacts).stream()
+                .map(contact -> {
+                    EmployeeContactEntity employeeContact = new EmployeeContactEntity(contact.id(), contact.contact(), contact.isPrimary());
+                    employeeContact.setEmployee(employee);
+                    return employeeContact;
+
+                })
+                .collect(Collectors.toSet());
+    }
+
     private static Set<EmployeeAddressEntity> convertToEmployeeAddressEntities(final Set<Address> addresses, final EmployeeEntity employee) {
 
         return (addresses).stream()
                 .map(address -> {
                     EmployeeAddressEntity employeeAddress = new EmployeeAddressEntity(address.address1(), address.address2(),address.isPrimary());
+                    employeeAddress.setEmployee(employee);
+                    return employeeAddress;
+
+                })
+                .collect(Collectors.toSet());
+    }
+
+    private static Set<EmployeeAddressEntity> convertToEmployeeAddressEntitiesForUpdate(final Set<UpdateAddress> addresses, final EmployeeEntity employee) {
+
+        return (addresses).stream()
+                .map(address -> {
+                    EmployeeAddressEntity employeeAddress = new EmployeeAddressEntity(address.id(), address.address1(), address.address2(),address.isPrimary());
                     employeeAddress.setEmployee(employee);
                     return employeeAddress;
 

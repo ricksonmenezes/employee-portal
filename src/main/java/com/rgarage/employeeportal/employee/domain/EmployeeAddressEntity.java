@@ -43,6 +43,14 @@ public class EmployeeAddressEntity {
         this.address2 = address2;
         this.isPrimary = primary;
     }
+
+    public EmployeeAddressEntity(Integer id, String address1, String address2, boolean primary) {
+
+        this.id = id;
+        this.address1 = address1;
+        this.address2 = address2;
+        this.isPrimary = primary;
+    }
     @PrePersist
     protected void onCreate() {
         LocalDateTime now = LocalDateTime.now();
