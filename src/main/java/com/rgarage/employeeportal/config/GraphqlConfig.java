@@ -1,7 +1,6 @@
 package com.rgarage.employeeportal.config;
 
 import com.rgarage.employeeportal.employee.resolvers.EmployeeResolver;
-import com.rgarage.employeeportal.user.UserResolver;
 import graphql.GraphQL;
 import graphql.schema.GraphQLSchema;
 import io.leangen.graphql.GraphQLSchemaGenerator;
@@ -14,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 public class GraphqlConfig {
 
     private final EmployeeResolver employeeResolver;
-    private final UserResolver userResolver;
+
 
     @Bean
     GraphQL getGraphQL() {
@@ -26,7 +25,7 @@ public class GraphqlConfig {
         return new GraphQLSchemaGenerator()
                 .withBasePackages("com.rgarage.employeeportal")
                 .withOperationsFromSingleton(this.employeeResolver)
-                .withOperationsFromSingleton(this.userResolver)
+
                 .generate();
     }
 }
