@@ -1,0 +1,56 @@
+version: '3.8'
+name: 'employee-management'
+
+networks:
+  my-network:
+    name: my-network
+
+services:
+  employee-management-db:
+    image: mysql:8.0
+    networks:
+      - my-network
+    container_name: employee-management-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: employeemanagementdb
+      MYSQL_USER: ${SPRING_DATASOURCE_USERNAME}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_TCP_PORT: 3307
+    ports:
+      - "3307:3307"
+    expose:
+      - 3307
+    healthcheck:
+      test: ["CMD-SHELL", 'mysqladmin ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 500m
+
+  employee-management-service:
+    image: employeeportal
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: employee-management-service
+    environment:
+      SPRING_PROFILE_ACTIVE: ${SPRING_PROFILE_ACTIVE}
+      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+    ports:
+      - "8081:8081"
+    restart: unless-stopped
+    depends_on:
+      employee-management-db:
+        condition: service_healthy
+    networks:
+      - my-network
+    deploy:
+      resources:
+        limits:
+          memory: 700m
