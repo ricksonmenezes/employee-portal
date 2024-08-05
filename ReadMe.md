@@ -1,5 +1,9 @@
 # Getting Started
 
+Please have docker running on your machine. I hope you wouldn't require JDK 17 but that is what the java is compiling to. 
+Tests of docker done: 1 mac
+
+
 `docker-compose up build --d `
 
 This is the only command to run if the dockerizing works well.
