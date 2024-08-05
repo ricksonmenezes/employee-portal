@@ -1,12 +1,20 @@
 #!/bin/bash
+FROM maven:3.9.6 AS maven
 
-IMAGE_NAME="maven:3.8.1-openjdk-17-slim"
+WORKDIR /usr/src/app
 
-# Clean and verify with Maven inside a Docker container
-docker run --rm -v "$PWD":/app -w /app "$IMAGE_NAME" mvn clean verify
+COPY . /usr/src/app
 
-# Build the Docker image for the Spring Boot application
-docker run --rm -v "$PWD":/app -w /app "$IMAGE_NAME" mvn spring-boot:build-image -DskipTests
+RUN mvn package -DskipTests -e
 
-# Start application services
-docker-compose --env-file .env up -d
+FROM openjdk:17-jdk-slim
+
+ARG JAR_FILE=employeeportal-0.0.1-SNAPSHOT.jar
+#ADD target/assignment-0.0.1-SNAPSHOT.jar assignment.jar
+WORKDIR /opt/app
+
+COPY --from=maven /usr/src/app/target/${JAR_FILE} /opt/app/
+
+EXPOSE 8081
+
+ENTRYPOINT ["java","-agentlib:jdwp=transport=dt_socket,address=8000,server=y,suspend=n","-Dspring.profiles.active=dev","-jar", "employeeportal-0.0.1-SNAPSHOT.jar"]

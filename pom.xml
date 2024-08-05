@@ -31,6 +31,8 @@
 		<dockerImageName>rickmen/${project.artifactId}</dockerImageName>
 		<graphql-java-kickstart.version>7.1.0</graphql-java-kickstart.version>
 		<graphql-spqr.version>0.10.1</graphql-spqr.version>
+		<docker.image.prefix>docker.io/library/maven</docker.image.prefix>
+		<maven.version>3.9.6</maven.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -139,26 +141,18 @@
 	</dependencies>
 
 	<build>
-
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<image>
-						<name>${dockerImageName}</name>
-						<builder>dashaun/builder:tiny</builder>
-					</image>
-
-
+					<repository>${docker.image.prefix}/maven</repository>
+					<tag>${maven.version}</tag>
 				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>build-info</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>
