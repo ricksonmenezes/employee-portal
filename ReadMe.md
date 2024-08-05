@@ -1,25 +1,29 @@
-# Getting Started
+# 1. Getting Started
 
-## Known Issues
+
+## 2. Known Issues
 
 1. findAll() is  code smell. It should have been done by Requesting say a page of 10 records but couldn't reach pagination.
 2. The graph library tries to bring in all the relations lazily but it makes several additional queries. Some would  say, of course that is what lazy approach but in reality, when pulling in 10-20 elements for a page, you don't want 50 queries to run on the DB. A simple join query could work. I should have gone for the join query on datatable and only show case lazy loading during employee select. Trying to do achieve both with annotations is complex.
-3. I failed to add test cases. the library I am using avoids creating GraphQL types - the contracts. It can read the POJOs you create and map to them. The problem is that when I did realize that the GraphQL types are contracts and the ease of Graph to Java mapping (SPQR) is not supported on Spring 3, I was a bit caught. What I mean is that I was able to run some tests on Spring 3 with Graph Types on Spring 3 but not with SPQR which works on Spring 2 and upgrading everything at the end was too painful.
+3. I failed to add test cases. the library I am using avoids creating GraphQL types - the contracts. It can read the POJOs you create and map the payload from postman/svelte directly. The problem is that when I didnt realize that the GraphQL types are contracts and the ease of Graph to Java mapping (SPQR) is not supported on Spring 3, So I got caught because tests were running on Spring 3 for GraphQL but SPQR did not work and I would have to write all the graphQL contracts again because test cases are not working. Considering that this would break the heart of the application, I stuck to SPQR.
 4. As a tradeoff, you will observe, I have dockerized both front end and back end apps.
 5. Couldn't add validations for length of data fields etc.
 6. Couldn't add Java docs or Sonar Cube.
-7. At present there is no security library implemented on the back-end side.
-8. As graphql requires all data requests on the same endpoint, I think this can be done via AOP aspects.
+7. At present there is no security library implemented on the back-end side. As graphql requires all data requests on the same endpoint, I think this can be done via AOP aspects.
+8. Some classes are commented and 
 
-## IDEAS
+## 3. Background
 
 1. Contact and Addresss both are separate tables so that adding another line of address is easy.
-2.
 
+# 4. REQUIREMENTS
 
-Please have docker running on your machine. I hope you wouldn't require JDK 17 but it is being used in the project for Java Records.
+1. Please have docker running on your machine. 
+2. I hope you wouldn't require JDK 17 but it is being used in the project for Java Records.
 
-Tests of docker done: 1 mac
+# 5. Tests
+
+1.Tests of docker done: 1 mac
 
 
 `docker-compose up build --d `
@@ -60,7 +64,7 @@ create a database called employeemanagementdb. And just run the project  via int
 
 Flyway migrations will add the tables on startup.
 
-## OTHER USEFUL COMMANDS
+## OTHER USEFUL COMMANDS FOR DEV WORK
 ./mvnw clean verify;
 
 ./mvnw  spring-boot:build-image -DskipTests
