@@ -1,42 +1,5 @@
 # Getting Started
 
-Please have docker running on your machine. I hope you wouldn't require JDK 17 but that is what the java is compiling to. 
-Tests of docker done: 1 mac
-
-
-`docker-compose up build --d `
-
-This is the only command to run if the dockerizing works well.
-
-## PORTS
-
-Spring boot is running on 8081
-mysql is running on 3307 (or 3306?)
-Svelte app works on 3302. Default is 5000 but it has been overrriden. 
-
-For the database port to not be used. You need to ensure that the port 3306, 3307 is not already in use.
-If you have MySQL installed on your machine, I suggest you stop the service so that the port is free.
-
-On Mac, the way to check if the port is free or is being used is
-
-`sudo lsof -i: 3306`
-
-
-This command above will tell you the pid of the process. If being used,  you could kill the process by pid
-
-`kill pid`
-
-pid will be
-
-Same above goes for port 8081
-
-On Windows, one could merely go to services and stop mysql.
-
-If the dockerizing doesn't work, the other option is listen on port 3307 on localhost
-create a database called employeemanagementdb. And just run it via intellij IDEA or another IDE.
-
-Flyway migrations will add the tables on startup.
-
 ## Known Issues
 
 1. findAll() is  code smell. It should have been done by Requesting say a page of 10 records but couldn't reach pagination.
@@ -54,6 +17,48 @@ Flyway migrations will add the tables on startup.
 2.
 
 
+Please have docker running on your machine. I hope you wouldn't require JDK 17 but it is being used in the project for Java Records.
+
+Tests of docker done: 1 mac
+
+
+`docker-compose up build --d `
+
+This is the only command to run if the dockerizing works well.
+
+## PORTS NEED TO BE AVAILABLE
+
+- Spring boot is running on 8081 
+- mysql is running on 3307 
+- Svelte app works on 8082. In case you need to run svelte inside IDE, it runs on 8080
+
+For the database port to not be used. You need to ensure that the port 3306, 3307 is not already in use.
+If you have MySQL installed on your machine, I suggest you stop the service so that the port is free.
+
+On Mac, the way to check if the port is free or is being used is
+
+`sudo lsof -i: 3306`
+
+This command above will tell you the pid of the process. If being used,  you could kill the process by pid
+
+`kill pid`
+
+pid will be
+
+Same above goes for port 8081, 8080.
+
+On Windows, one could merely go to services and stop mysql.
+
+If the dockerizing doesn't work, the other option is listen on port 3307 on localhost
+create a database called employeemanagementdb. And just run the project  via intellij IDEA
+
+# Create Database
+`create database employeemanagementdb;`
+
+# Maven commands to run incase you want to start the server locally without Docker. 
+
+
+Flyway migrations will add the tables on startup.
 
 ## OTHER USEFUL COMMANDS
 ./mvnw clean verify;
@@ -80,3 +85,10 @@ docker exec -it employee-management-db mysql -u user -p employeemanagementdb
 
 docker-compose up build --d  
 docker exec -it employee-management-db mysql -u user -p employeemanagementdb
+
+# Users for logging in to svelte app
+username: user
+password: userpassword
+
+username: admin
+password: adminpassword
