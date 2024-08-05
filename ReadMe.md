@@ -58,21 +58,38 @@ create a database called employeemanagementdb. And just run the project  via int
 # Create Database
 `create database employeemanagementdb;`
 
-# Maven commands to run incase you want to start the server locally without Docker.
+# Maven commands to run in case you want to start the server locally without Docker.
+1. maven is whatever maven is available on your system and compatible with this project. This project uses apache maven 3.9.6. It may have a shortcut like ./mvnw etc
 
+To give you an example, this is what I get when I do maven --version on my machine
+./mvnw --version
+Apache Maven 3.9.7 (8b094c9513efc1b9ce2d952b3b9c8eaedaf8cbf0)
+Maven home: /Users/ricksonmenezes/.m2/wrapper/dists/apache-maven-3.9.7/2a4cb831
+Java version: 21.0.2, vendor: Eclipse Adoptium, runtime: /Users/ricksonmenezes/.sdkman/candidates/java/21.0.2-tem
+
+`maven clean package`
+
+In order to run below, you need to first start database service - either the docker file or configure database via local MySQL
+To try the  mysql docker file
+
+Using Docker mysql
+`docker compose --env-file .env  -f deployment/docker-compose/infra.yml up -d`
+
+`java -jar target/employeeportal-0.0.1-SNAPSHOT.jar`
 
 Flyway migrations will add the tables on startup.
 
 
 # 6. COMMANDS TO RUN
 
-1. Go to an empty folder in your machine open on terminal (terminal discussed on 4.3)
-2. `git clone https://github.com/ricksonmenezes/employee-svelte.git`
-3. you will find a new folder employee-svelte. cd /employee-svelte
+1. Go to an empty folder in your machine open on terminal (choice of terminal discussed on 4.3)
+2. `git clone https://github.com/ricksonmenezes/employee-portal`
+3. you will find a new folder employee-portal. cd /employee-portal
 4. once inside, run command below
 
 `docker compose up --build`
 
+If all goes well, please move on to start the employee-svelte docker container. 
 
 # 7. Tests done on docker
 
