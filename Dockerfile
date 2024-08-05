@@ -1,53 +1,12 @@
-version: '3.8'
-name: 'employee-management'
+#!/bin/bash
 
-networks:
-  my-network:
-    name: my-network
+IMAGE_NAME="maven:3.8.1-openjdk-17-slim"
 
-services:
-  employee-management-db:
-    image: mysql:8.0
-    networks:
-      - my-network
-    container_name: employee-management-db
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: employeemanagementdb
-      MYSQL_USER: ${SPRING_DATASOURCE_USERNAME}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_TCP_PORT: 3307
-    ports:
-      - "3307:3307"
-    expose:
-      - 3307
-    healthcheck:
-      test: ["CMD-SHELL", 'mysqladmin ping']
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    deploy:
-      resources:
-        limits:
-          memory: 500m
+# Clean and verify with Maven inside a Docker container
+docker run --rm -v "$PWD":/app -w /app "$IMAGE_NAME" mvn clean verify
 
-  employee-management-service:
-    image: rickmen/employeeportal
-    container_name: employee-management-service
-    environment:
-      SPRING_PROFILE_ACTIVE: ${SPRING_PROFILE_ACTIVE}
-      SPRING_DATASOURCE_URL: ${SPRING_DATASOURCE_URL}
-      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
-      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
-    ports:
-      - "8081:8081"
-    restart: unless-stopped
-    depends_on:
-      employee-management-db:
-        condition: service_healthy
-    networks:
-      - my-network
-    deploy:
-      resources:
-        limits:
-          memory: 700m
+# Build the Docker image for the Spring Boot application
+docker run --rm -v "$PWD":/app -w /app "$IMAGE_NAME" mvn spring-boot:build-image -DskipTests
+
+# Start application services
+docker-compose --env-file .env up -d
