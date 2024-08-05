@@ -23,7 +23,7 @@ public class WebConfig implements WebMvcConfigurer {
 
 
         registry.addMapping("/**") // Apply to all endpoints
-                .allowedOrigins("http://localhost:5000", "http://nginx:80","http://localhost:8082")
+                .allowedOrigins("http://localhost:5000", "http://nginx:80","http://localhost:8082","http://localhost:8080")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Specify allowed methods
                 .allowedHeaders("*") // Allow all headers
                 .allowCredentials(true); // Allow credentials
