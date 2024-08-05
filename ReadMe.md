@@ -6,34 +6,33 @@
 1. findAll() is  code smell. It should have been done by Requesting say a page of 10 records but couldn't reach pagination.
 2. The graph library tries to bring in all the relations lazily but it makes several additional queries. Some would  say, of course that is what lazy approach but in reality, when pulling in 10-20 elements for a page, you don't want 50 queries to run on the DB. A simple join query could work. I should have gone for the join query on datatable and only show case lazy loading during employee select. Trying to do achieve both with annotations is complex.
 3. I failed to add test cases. the library I am using avoids creating GraphQL types - the contracts. It can read the POJOs you create and map the payload from postman/svelte directly. The problem is that when I didnt realize that the GraphQL types are contracts and the ease of Graph to Java mapping (SPQR) is not supported on Spring 3, So I got caught because tests were running on Spring 3 for GraphQL but SPQR did not work and I would have to write all the graphQL contracts again because test cases are not working. Considering that this would break the heart of the application, I stuck to SPQR.
-4. As a tradeoff, you will observe, I have dockerized both front end and back end apps.
+4. 
 5. Couldn't add validations for length of data fields etc.
 6. Couldn't add Java docs or Sonar Cube.
 7. At present there is no security library implemented on the back-end side. As graphql requires all data requests on the same endpoint, I think this can be done via AOP aspects.
-8. Some classes are commented and 
+8. Some classes are commented. No cleanup done. 
 
 ## 3. Background
 
 1. Contact and Addresss both are separate tables so that adding another line of address is easy.
+2. Reason why test cases are missing: the library I am using avoids creating GraphQL types - the contracts. It can read the POJOs you create and map the payload from postman/svelte directly. The problem is that when I didnt realize that the GraphQL types are contracts and the ease of Graph to Java mapping (SPQR) is not supported on Spring 3, So I got caught because tests were running on Spring 3 for GraphQL but SPQR did not work and I would have to write all the graphQL contracts again because test cases are not working. Considering that this would break the heart of the application, I stuck to SPQR.
+3. As a tradeoff for lack of test cases, I have dockerized both front end and back end apps.
+
+# Features I couldn't manage to do
+
+1. Reason why test cases are missing: the library I am using avoids creating GraphQL types - the contracts. It can read the POJOs you create and map the payload from postman/svelte directly. The problem is that when I didnt realize that the GraphQL types are contracts and the ease of Graph to Java mapping (SPQR) is not supported on Spring 3, So I got caught because tests were running on Spring 3 for GraphQL but SPQR did not work and I would have to write all the graphQL contracts again because test cases are not working. Considering that this would break the heart of the application, I stuck to SPQR.
+2. As a tradeoff for lack of test cases, I have dockerized both front end and back end a
 
 # 4. REQUIREMENTS
 
 1. Please have docker running on your machine. 
-2. I hope you wouldn't require JDK 17 but it is being used in the project for Java Records.
+2. I hope you wouldn't require JDK 17 but it is being used in the project for Java Records. (tested on windows, was not required)
+3. Please make sure you are logged into docker. On windows, git bash often can give issues with "docker-credentials". It's safe to go to Docker Desktop app and start the terminal window there 
 
-# 5. Tests
+## 5 PORTS NEED TO BE AVAILABLE
 
-1.Tests of docker done: 1 mac
-
-
-`docker-compose up build --d `
-
-This is the only command to run if the dockerizing works well.
-
-## PORTS NEED TO BE AVAILABLE
-
-- Spring boot is running on 8081 
-- mysql is running on 3307 
+- Spring boot is running on 8081
+- mysql is running on 3307
 - Svelte app works on 8082. In case you need to run svelte inside IDE, it runs on 8080
 
 For the database port to not be used. You need to ensure that the port 3306, 3307 is not already in use.
@@ -41,7 +40,7 @@ If you have MySQL installed on your machine, I suggest you stop the service so t
 
 On Mac, the way to check if the port is free or is being used is
 
-`sudo lsof -i: 3306`
+`sudo lsof -i: 3307`
 
 This command above will tell you the pid of the process. If being used,  you could kill the process by pid
 
@@ -59,10 +58,28 @@ create a database called employeemanagementdb. And just run the project  via int
 # Create Database
 `create database employeemanagementdb;`
 
-# Maven commands to run incase you want to start the server locally without Docker. 
+# Maven commands to run incase you want to start the server locally without Docker.
 
 
 Flyway migrations will add the tables on startup.
+
+
+# 6. COMMANDS TO RUN
+
+1. Go to an empty folder in your machine open on terminal (terminal discussed on 4.3)
+2. `git clone https://github.com/ricksonmenezes/employee-svelte.git`
+3. you will find a new folder employee-svelte. cd /employee-svelte
+4. once inside, run command below
+
+`docker compose up --build`
+
+
+# 7. Tests done on docker
+
+1.Tests of docker done: 1 mac and 1 windows
+
+This is the only command to run if the dockerizing works well.
+
 
 ## OTHER USEFUL COMMANDS FOR DEV WORK
 ./mvnw clean verify;
