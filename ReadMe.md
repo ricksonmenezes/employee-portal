@@ -40,7 +40,7 @@ If you have MySQL installed on your machine, I suggest you stop the service so t
 
 On Mac, the way to check if the port is free or is being used is
 
-`sudo lsof -i: 3307`
+`sudo lsof -i :3307`
 
 This command above will tell you the pid of the process. If being used,  you could kill the process by pid
 
@@ -77,7 +77,7 @@ Using Docker mysql
 
 `java -jar target/employeeportal-0.0.1-SNAPSHOT.jar`
 
-Flyway migrations will add the tables on startup.
+Flyway migrations will add the tables on startup.xw
 
 
 # 6. COMMANDS TO RUN
